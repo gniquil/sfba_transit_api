@@ -12,4 +12,7 @@ module SFBATransitAPI
   class ResponseException < Exception
   end
 
+  def self.client(token, options={})
+    Client.new(token, options)
+  end
 end

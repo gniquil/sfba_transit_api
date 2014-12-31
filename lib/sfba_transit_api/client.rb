@@ -3,6 +3,10 @@ module SFBATransitAPI
 
     attr_accessor :connection
 
+    # Initialize the client
+    #
+    # @param token [String] obtained from http://www.511.org/developer-resources_api-security-token_rtt.asp
+    # @return [String] the object converted into the expected format.
     def initialize(token, options={})
       self.connection = Connection.new(token, options)
     end
