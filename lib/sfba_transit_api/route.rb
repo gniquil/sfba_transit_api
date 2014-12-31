@@ -1,13 +1,13 @@
 module SFBATransitAPI
   class Route
-    attr_accessor :name, :code, :inbound_name, :outbound_name, :stops, :agency
+    attr_accessor :name, :code, :directions, :stops, :agency
 
     def has_direction
-      not (inbound_name.nil? and outbound_name.nil?)
+      directions.count > 0
     end
 
     def to_s
-      "#<SFBATransitAPI::Route:#{object_id} @name=\"#{name}\", @code=\"#{code}\", @inbound_name=\"#{inbound_name}\", @outbound_name=\"#{outbound_name}\", @agency=<SFBATransitAPI::Agency:#{agency.object_id}>, stops.count=#{stops.count}>"
+      "#<SFBATransitAPI::Route:#{object_id} @name=\"#{name}\", @code=\"#{code}\", @direction_codes=\"#{direction_codes}\", @agency=<SFBATransitAPI::Agency:#{agency.object_id}>, directions.count=#{directions.count}, stops.count=#{stops.count}>"
     end
 
     def self.parse(agency_node, agency)
@@ -19,17 +19,7 @@ module SFBATransitAPI
         route.name = route_node["Name"]
         route.code = route_node["Code"]
 
-        direction_nodes = route_node.xpath(".//RouteDirection")
-        if direction_nodes.count > 0
-          direction_nodes.each do |direction_node|
-            if direction_node["Code"] == "Inbound"
-              route.inbound_name = direction_node["Name"]
-            elsif direction_node["Code"] == "Outbound"
-              route.outbound_name = direction_node["Name"]
-            end
-          end
-        end
-
+        route.directions = Direction.parse(route_node, route)
         route.stops = Stop.parse(route_node, route)
 
         route

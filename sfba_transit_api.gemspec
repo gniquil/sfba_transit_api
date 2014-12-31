@@ -1,9 +1,9 @@
 Gem::Specification.new do |s|
   s.name        = 'sfba_transit_api'
-  s.version     = '0.1.0'
+  s.version     = '1.0.0'
   s.date        = '2014-12-30'
   s.summary     = "San Francisco Bay Area 511 Real-time Transit Data Services API"
-  s.description = "A Simple Way to Query the 511 RTT API"
+  s.description = "San Francisco Bay Area 511 Real-time Transit Data Services API"
   s.authors     = ["Frank Liu"]
   s.email       = 'gniquil@gmail.com'
   s.files       = Dir[ "lib/*.rb", "lib/sfba_transit_api/*.rb" ]

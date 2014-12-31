@@ -77,8 +77,9 @@ module SFBATransitAPI
 
       expect(route.name).to eq "19-Polk"
       expect(route.code).to eq "19"
-      expect(route.inbound_name).to eq nil
-      expect(route.outbound_name).to eq "Outbound to Hunters Point"
+      expect(route.directions.count).to eq 1
+      expect(route.directions[0].code).to eq "Outbound"
+      expect(route.directions[0].name).to eq "Outbound to Hunters Point"
       expect(route.agency).to eq agency
 
       expect(route.stops.count).to eq 1
@@ -87,8 +88,8 @@ module SFBATransitAPI
 
       expect(stop.name).to eq "Polk St and Sutter St"
       expect(stop.code).to eq "16002"
-      expect(stop.direction).to eq :outbound
-      expect(stop.direction_name).to eq "Outbound to Hunters Point"
+      expect(stop.direction.code).to eq "Outbound"
+      expect(stop.direction.name).to eq "Outbound to Hunters Point"
       expect(stop.departure_times).to eq [13, 40, 55]
       expect(stop.route).to eq route
     end

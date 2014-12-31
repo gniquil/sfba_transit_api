@@ -12,8 +12,8 @@ module SFBATransitAPI
 
     it "make the right routeIDF" do
       expect(client.makeRouteIDF(agency_name: "SF-MUNI", route_code: "Some Route")).to eq "SF-MUNI~Some Route"
-      expect(client.makeRouteIDF(agency_name: "SF-MUNI", route_code: "Some Route", route_direction: :inbound)).to eq "SF-MUNI~Some Route~Inbound"
-      expect(client.makeRouteIDF(agency_name: "SF-MUNI", route_code: "Some Route", route_direction: :outbound)).to eq "SF-MUNI~Some Route~Outbound"
+      expect(client.makeRouteIDF(agency_name: "SF-MUNI", route_code: "Some Route", route_direction_code: "Inbound")).to eq "SF-MUNI~Some Route~Inbound"
+      expect(client.makeRouteIDF(agency_name: "SF-MUNI", route_code: "Some Route", route_direction_code: "Outbound")).to eq "SF-MUNI~Some Route~Outbound"
     end
 
     it "behaves correctly for `#get_agencies`", external: true do
@@ -32,6 +32,15 @@ module SFBATransitAPI
       expect(agencies.first.name).not_to be_nil
     end
 
+    it "behaves correctly for `#get_routes_for_agency` with directions", external: true do
+      routes = client.get_routes_for_agency "AC Transit"
+
+      expect(routes.count).to be > 0
+
+      expect(routes.first.name).not_to be_nil
+      expect(routes.first.directions.count).to be > 0
+    end
+
     it "behaves correctly for `#get_routes_for_agencies`", external: true do
       routes = client.get_routes_for_agencies ["BART", "SF-MUNI"]
 
@@ -41,7 +50,7 @@ module SFBATransitAPI
     end
 
     it "behaves correctly for `#get_stops_for_route(s)`", external: true do
-      routes = client.get_stops_for_route agency_name: "SF-MUNI", route_code: "19", route_direction: :inbound
+      routes = client.get_stops_for_route agency_name: "SF-MUNI", route_code: "19", route_direction_code: "Inbound"
 
       inbound_count = routes.count
 
@@ -51,10 +60,10 @@ module SFBATransitAPI
 
       routes = client.get_stops_for_routes [
         {
-          agency_name: "SF-MUNI", route_code: "19", route_direction: :inbound
+          agency_name: "SF-MUNI", route_code: "19", route_direction_code: "Inbound"
         },
         {
-          agency_name: "SF-MUNI", route_code: "19", route_direction: :outbound
+          agency_name: "SF-MUNI", route_code: "19", route_direction_code: "Outbound"
         }
       ]
 
@@ -75,15 +84,15 @@ module SFBATransitAPI
       expect(stop.name).to eq "Polk St and Sutter St"
       expect(stop.code).to eq "16002"
       expect(stop.departure_times.count).to be > 0
-      expect(stop.direction).to eq :outbound
-      expect(stop.direction_name).to eq "Outbound to Hunters Point"
+      expect(stop.direction.code).to eq "Outbound"
+      expect(stop.direction.name).to eq "Outbound to Hunters Point"
 
       route = stop.route
 
       expect(route.name).to eq "19-Polk"
       expect(route.code).to eq "19"
-      expect(route.inbound_name).to eq nil
-      expect(route.outbound_name).to eq "Outbound to Hunters Point"
+      expect(route.directions.count).to eq 1
+      expect(route.directions.first.name).to eq "Outbound to Hunters Point"
 
       agency = route.agency
 

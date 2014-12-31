@@ -65,8 +65,7 @@ module SFBATransitAPI
 
     def makeRouteIDF(route_info)
       route_idf = "#{route_info[:agency_name]}~#{route_info[:route_code]}"
-      route_idf += "~Inbound" if route_info[:route_direction] == :inbound
-      route_idf += "~Outbound" if route_info[:route_direction] == :outbound
+      route_idf += "~#{route_info[:route_direction_code]}" if route_info[:route_direction_code]
       route_idf
     end
 

@@ -23,13 +23,11 @@ module SFBATransitAPI
       expect(stops[0].name).to eq "16th St. Mission (SF)"
       expect(stops[0].code).to eq "10"
       expect(stops[0].direction).to eq nil
-      expect(stops[0].direction_name).to eq nil
       expect(stops[0].route).to eq route_double
 
       expect(stops[1].name).to eq "Civic Center (SF)"
       expect(stops[1].code).to eq "12"
       expect(stops[1].direction).to eq nil
-      expect(stops[1].direction_name).to eq nil
       expect(stops[1].route).to eq route_double
     end
 
@@ -57,14 +55,14 @@ module SFBATransitAPI
 
       expect(stops[0].name).to eq "Beach St and Polk St"
       expect(stops[0].code).to eq "13093"
-      expect(stops[0].direction).to eq :outbound
-      expect(stops[0].direction_name).to eq "Outbound to Hunters Point"
+      expect(stops[0].direction.code).to eq "Outbound"
+      expect(stops[0].direction.name).to eq "Outbound to Hunters Point"
       expect(stops[0].route).to eq route_double
 
       expect(stops[1].name).to eq "8th St and Brannan St"
       expect(stops[1].code).to eq "13203"
-      expect(stops[1].direction).to eq :outbound
-      expect(stops[1].direction_name).to eq "Outbound to Hunters Point"
+      expect(stops[1].direction.code).to eq "Outbound"
+      expect(stops[1].direction.name).to eq "Outbound to Hunters Point"
       expect(stops[1].route).to eq route_double
     end
 
@@ -94,7 +92,6 @@ module SFBATransitAPI
       expect(stops[0].name).to eq "16th St. Mission (SF)"
       expect(stops[0].code).to eq "10"
       expect(stops[0].direction).to eq nil
-      expect(stops[0].direction_name).to eq nil
       expect(stops[0].departure_times).to eq [13, 40, 55]
       expect(stops[0].route).to eq route_double
     end
@@ -126,8 +123,8 @@ module SFBATransitAPI
 
       expect(stops[0].name).to eq "Beach St and Polk St"
       expect(stops[0].code).to eq "13093"
-      expect(stops[0].direction).to eq :outbound
-      expect(stops[0].direction_name).to eq "Outbound to Hunters Point"
+      expect(stops[0].direction.code).to eq "Outbound"
+      expect(stops[0].direction.name).to eq "Outbound to Hunters Point"
       expect(stops[0].departure_times).to eq [1]
       expect(stops[0].route).to eq route_double
     end

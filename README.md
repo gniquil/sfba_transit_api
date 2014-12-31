@@ -31,7 +31,7 @@ client = SFBATransitAPI.client ENV['SFBA_TRANSIT_API_TOKEN']
 # When will the next MUNI bus 19 leave from the Polk and Sutter Station to go to
 # Potrero Hill?
 
-stops = client.get_stops_for_route(agency_name: "SF-MUNI", route_code: "19", route_direction: :outbound)
+stops = client.get_stops_for_route(agency_name: "SF-MUNI", route_code: "19", route_direction_code: "Outbound")
 
 my_stop = stops.find { |stop| stop.name =~ /Polk.+Sutter/ }
 puts my_stop.code
@@ -82,7 +82,7 @@ module SFBATransitAPI
     # @param route_info [Hash]
     # @option route_info [String] :agency_name required
     # @option route_info [String] :route_code required
-    # @option route_info [Symbol] :route_direction optional, or :inbound, :outbound
+    # @option route_info [String] :route_direction_code optional if agency is direction-less
     # @return [Array<SFBATransitAPI::Route>]
     def get_stops_for_route(route_info); end
 
@@ -107,19 +107,22 @@ module SFBATransitAPI
 
   # @attr [String] name
   # @attr [String] code
-  # @attr [String] inbound_name
-  # @attr [String] outbound_name
+  # @attr [SFBATransitAPI::Route]
+  class Direction; end
+
+  # @attr [String] name
+  # @attr [String] code
   # @attr [Boolean] has_direction
   # @attr [Array<SFBATransitAPI::Stop>] stops
+  # @attr [Array<SFBATransitAPI::Direction>] directions
   # @attr [SFBATransitAPI::Agency] agency
   class Route; end
 
   # @attr [String] name
   # @attr [String] code
-  # @attr [Symbol] direction values can be nil, :inbound, :outbound
-  # @attr [String] direction_name can be nil
+  # @attr [SFBATransitAPI::Direction] direction values can be nil
   # @attr [Array<Fixnum>] departure_times can be []
-  # @attr [SFBATransitAPI::Route] route can be []
+  # @attr [SFBATransitAPI::Route] route
   class Stop; end
 end
 ```
