@@ -77,9 +77,11 @@ module SFBATransitAPI
     end
 
     it "behaves correctly for `#get_next_departures_by_stop_code`", external: true do
-      stop = client.get_next_departures_by_stop_code "16002"
+      stops = client.get_next_departures_by_stop_code "16002"
 
-      expect(stop.is_a?(Stop)).to eq true
+      expect(stops.is_a?(Array)).to eq true
+
+      stop = stops[0]
 
       expect(stop.name).to eq "Polk St and Sutter St"
       expect(stop.code).to eq "16002"
@@ -99,6 +101,28 @@ module SFBATransitAPI
       expect(agency.name).to eq "SF-MUNI"
       expect(agency.mode).to eq "Bus"
       expect(agency.has_direction).to eq true
+    end
+
+    it "behaves correctly for `#get_next_departures_by_stop_code` with multiple routes", external: true do
+      stops = client.get_next_departures_by_stop_code "16189"
+
+      expect(stops.size).to eq 2
+
+      stop = stops[0]
+
+      expect(stop.name).to eq "Rhode Island St and 16th St"
+      expect(stop.code).to eq "16189"
+      expect(stop.departure_times.count).to be > 0
+      expect(stop.direction.code).to eq "Inbound"
+      expect(stop.direction.name).to eq "Inbound to Pacific Heights"
+
+      stop = stops[1]
+
+      expect(stop.name).to eq "Rhode Island St and 16th St"
+      expect(stop.code).to eq "16189"
+      expect(stop.departure_times.count).to be > 0
+      expect(stop.direction.code).to eq "Inbound"
+      expect(stop.direction.name).to eq "Inbound to Fishermans Wharf"
     end
 
   end

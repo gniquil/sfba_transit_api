@@ -60,7 +60,7 @@ module SFBATransitAPI
         agency.routes.map do |route|
           route.stops
         end.flatten
-      end.flatten.first
+      end.flatten
     end
 
     def makeRouteIDF(route_info)
