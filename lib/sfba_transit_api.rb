@@ -1,7 +1,3 @@
-require_relative "./sfba_transit_api/stop"
-require_relative "./sfba_transit_api/direction"
-require_relative "./sfba_transit_api/route"
-require_relative "./sfba_transit_api/agency"
 require_relative "./sfba_transit_api/connection"
 require_relative "./sfba_transit_api/client"
 

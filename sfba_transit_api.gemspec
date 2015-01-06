@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'sfba_transit_api'
-  s.version     = '1.1.0'
+  s.version     = '2.0.0'
   s.date        = '2014-12-30'
   s.summary     = "SF Bay Area 511 Real-time Transit Data Services API"
   s.description = "San Francisco Bay Area 511 Real-time Transit Data Services API"
